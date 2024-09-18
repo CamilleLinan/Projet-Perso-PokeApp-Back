@@ -1,8 +1,7 @@
 ﻿using GraphQL;
 using PokeApp.Services.Interfaces;
 using PokeApp.Models;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using PokeApp.Models.Dto;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 
@@ -17,7 +16,7 @@ namespace PokeApp.Services
             _client = new GraphQLHttpClient("https://beta.pokeapi.co/graphql/v1beta", new NewtonsoftJsonSerializer());
         }
 
-        public async Task<List<Pokemon>> GetFirstGenerationPokemonAsync()
+        public async Task<List<PokemonDto>> GetFirstGenerationPokemonAsync()
         {
             var request = new GraphQLRequest
             {
@@ -31,6 +30,17 @@ namespace PokeApp.Services
                           name
                           pokemon_v2_language {
                             name
+                          }
+                        }
+                        pokemon_v2_pokemons {
+                          id
+                          pokemon_v2_pokemonsprites {
+                            sprites
+                          }
+                          pokemon_v2_pokemontypes {
+                            pokemon_v2_type {
+                              name
+                            }
                           }
                         }
                       }
@@ -51,8 +61,33 @@ namespace PokeApp.Services
                 return null;
             }
 
-            // Retourne la liste des Pokémon de la première génération
-            return response.Data?.Gen1Species ?? new List<Pokemon>();
+            var pokemonDtos = response.Data?.Gen1Species?.Select(species =>
+            {
+                var namesDictionary = species.Pokemon_V2_Pokemonspeciesnames?
+                    .ToDictionary(
+                        n => n.Pokemon_V2_Language?.Name,
+                        n => n.Name
+                    );
+
+                var pokemon = species.Pokemon_V2_Pokemons.FirstOrDefault();
+                var spriteData = pokemon?.Pokemon_V2_Pokemonsprites.FirstOrDefault()?.Sprites;
+                var homeSprite = spriteData?.Other?.Home?.Front_Default;
+
+                var types = pokemon?.Pokemon_V2_Pokemontypes
+                    .Select(t => t.Pokemon_V2_Type.Name)
+                    .ToArray();
+
+                // Mapper vers PokemonDto
+                return new PokemonDto
+                {
+                    Id = species.Id,
+                    Names = namesDictionary,
+                    Types = types,
+                    Sprite = homeSprite
+                };
+            }).ToList();
+
+            return pokemonDtos ?? new List<PokemonDto>();
         }
     }
 }

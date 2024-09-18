@@ -25,11 +25,13 @@
     <None Remove="Controllers\" />
     <None Remove="Models\" />
     <None Remove="Services\Interfaces\" />
+    <None Remove="Models\Dto\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Services\Interfaces\" />
+    <Folder Include="Models\Dto\" />
   </ItemGroup>
 </Project>

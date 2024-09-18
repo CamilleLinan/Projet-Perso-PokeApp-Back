@@ -1,9 +1,9 @@
-﻿using PokeApp.Models;
+﻿using PokeApp.Models.Dto;
 
 namespace PokeApp.Services.Interfaces
 {
 	public interface IPokeService
 	{
-		Task<List<Pokemon>> GetFirstGenerationPokemonAsync();
+		Task<List<PokemonDto>> GetFirstGenerationPokemonAsync();
 	}
 }
