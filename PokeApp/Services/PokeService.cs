@@ -1,4 +1,5 @@
-﻿using GraphQL;
+﻿using AutoMapper;
+using GraphQL;
 using PokeApp.Services.Interfaces;
 using PokeApp.Models;
 using PokeApp.Models.Dto;
@@ -10,10 +11,12 @@ namespace PokeApp.Services
     public class PokeService : IPokeService
     {
         private readonly GraphQLHttpClient _client;
+        private readonly IMapper _mapper;
 
-        public PokeService()
+        public PokeService(IMapper mapper)
         {
             _client = new GraphQLHttpClient("https://beta.pokeapi.co/graphql/v1beta", new NewtonsoftJsonSerializer());
+            _mapper = mapper;
         }
 
         public async Task<List<PokemonDto>> GetFirstGenerationPokemonAsync()
@@ -51,7 +54,6 @@ namespace PokeApp.Services
 
             var response = await _client.SendQueryAsync<PokemonResponse>(request);
 
-            // Vérifier les erreurs de la réponse
             if (response.Errors != null)
             {
                 foreach (var error in response.Errors)
@@ -61,31 +63,7 @@ namespace PokeApp.Services
                 return null;
             }
 
-            var pokemonDtos = response.Data?.Gen1Species?.Select(species =>
-            {
-                var namesDictionary = species.Pokemon_V2_Pokemonspeciesnames?
-                    .ToDictionary(
-                        n => n.Pokemon_V2_Language?.Name,
-                        n => n.Name
-                    );
-
-                var pokemon = species.Pokemon_V2_Pokemons.FirstOrDefault();
-                var spriteData = pokemon?.Pokemon_V2_Pokemonsprites.FirstOrDefault()?.Sprites;
-                var homeSprite = spriteData?.Other?.Home?.Front_Default;
-
-                var types = pokemon?.Pokemon_V2_Pokemontypes
-                    .Select(t => t.Pokemon_V2_Type.Name)
-                    .ToArray();
-
-                // Mapper vers PokemonDto
-                return new PokemonDto
-                {
-                    Id = species.Id,
-                    Names = namesDictionary,
-                    Types = types,
-                    Sprite = homeSprite
-                };
-            }).ToList();
+            var pokemonDtos = response.Data?.Gen1Species?.Select(species => _mapper.Map<PokemonDto>(species)).ToList();
 
             return pokemonDtos ?? new List<PokemonDto>();
         }

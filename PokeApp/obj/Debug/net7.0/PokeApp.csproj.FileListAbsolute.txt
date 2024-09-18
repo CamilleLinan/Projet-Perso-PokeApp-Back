@@ -78,3 +78,5 @@
 /Users/cam/Projects/PokeApp/PokeApp/bin/Debug/net7.0/GraphQL.Client.Serializer.Newtonsoft.dll
 /Users/cam/Projects/PokeApp/PokeApp/bin/Debug/net7.0/GraphQL.Primitives.dll
 /Users/cam/Projects/PokeApp/PokeApp/bin/Debug/net7.0/System.Reactive.dll
+/Users/cam/Projects/PokeApp/PokeApp/bin/Debug/net7.0/AutoMapper.dll
+/Users/cam/Projects/PokeApp/PokeApp/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

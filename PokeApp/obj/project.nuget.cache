@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "s7BgU76rGYunxGUYfBjHXi4t4YlU351pvOu2IR4LJXpe9hTAfnel7HVVe2urNaotGL0bx+1K7IDprtqeYsnZ2g==",
+  "dgSpecHash": "6veELnFepkt4AbOsZgwc5LqTc9MSVKEFrBADNY829XFMx4a2agEtaqyfeecankOxCs7xw6S7qAdl1YgCqhfnwg==",
   "success": true,
   "projectFilePath": "/Users/cam/Projects/PokeApp/PokeApp/PokeApp.csproj",
   "expectedPackageFiles": [
+    "/Users/cam/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/Users/cam/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/Users/cam/.nuget/packages/bananacakepop.middleware/16.0.3/bananacakepop.middleware.16.0.3.nupkg.sha512",
     "/Users/cam/.nuget/packages/graphql/8.0.2/graphql.8.0.2.nupkg.sha512",
     "/Users/cam/.nuget/packages/graphql-parser/9.5.0/graphql-parser.9.5.0.nupkg.sha512",
@@ -41,6 +43,7 @@
     "/Users/cam/.nuget/packages/microsoft.aspnetcore.openapi/7.0.20/microsoft.aspnetcore.openapi.7.0.20.nupkg.sha512",
     "/Users/cam/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/Users/cam/.nuget/packages/microsoft.bcl.timeprovider/8.0.0/microsoft.bcl.timeprovider.8.0.0.nupkg.sha512",
+    "/Users/cam/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
     "/Users/cam/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "/Users/cam/.nuget/packages/microsoft.extensions.caching.abstractions/8.0.0/microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "/Users/cam/.nuget/packages/microsoft.extensions.caching.stackexchangeredis/8.0.8/microsoft.extensions.caching.stackexchangeredis.8.0.8.nupkg.sha512",

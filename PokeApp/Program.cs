@@ -1,4 +1,5 @@
-﻿using PokeApp.Services;
+﻿using PokeApp.AutoMapperProfile;
+using PokeApp.Services;
 using PokeApp.Services.Interfaces;
 
 namespace sciences_nation_back
@@ -27,6 +28,9 @@ namespace sciences_nation_back
 
             // Register services singleton
             builder.Services.AddScoped<IPokeService, PokeService>();
+
+            // Configure AutoMapper
+            builder.Services.AddAutoMapper(typeof(PokemonProfile));
 
             var app = builder.Build();
 
