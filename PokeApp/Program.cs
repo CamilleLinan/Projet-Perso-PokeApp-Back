@@ -1,6 +1,7 @@
 ﻿using PokeApp.AutoMapperProfile;
 using PokeApp.Services;
 using PokeApp.Services.Interfaces;
+using StackExchange.Redis;
 
 namespace sciences_nation_back
 {
@@ -28,9 +29,17 @@ namespace sciences_nation_back
 
             // Register services singleton
             builder.Services.AddScoped<IPokeService, PokeService>();
+            builder.Services.AddScoped<IRedisService, RedisService>();
 
             // Configure AutoMapper
             builder.Services.AddAutoMapper(typeof(PokemonProfile));
+
+            // Configure Redis connection
+            var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection") ?? "localhost:6379";
+            builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                return ConnectionMultiplexer.Connect(redisConnectionString);
+            });
 
             var app = builder.Build();
 

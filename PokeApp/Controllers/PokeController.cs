@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PokeApp.Services;
 using PokeApp.Services.Interfaces;
 
 namespace PokeApp.Controllers

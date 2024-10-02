@@ -12,15 +12,25 @@ namespace PokeApp.Services
     {
         private readonly GraphQLHttpClient _client;
         private readonly IMapper _mapper;
+        private readonly IRedisService _redisService;
 
-        public PokeService(IMapper mapper)
+        public PokeService(IMapper mapper, IRedisService redisService)
         {
             _client = new GraphQLHttpClient("https://beta.pokeapi.co/graphql/v1beta", new NewtonsoftJsonSerializer());
             _mapper = mapper;
+            _redisService = redisService;
         }
 
         public async Task<List<PokemonDto>> GetFirstGenerationPokemonAsync()
         {
+            string cacheKey = "gen1_pokemons";
+
+            var cachedData = await _redisService.GetCachedDataAsync<List<PokemonDto>>(cacheKey);
+            if (cachedData != null)
+            {
+                return cachedData;
+            }
+
             var request = new GraphQLRequest
             {
                 Query = @"
@@ -64,6 +74,11 @@ namespace PokeApp.Services
             }
 
             var pokemonDtos = response.Data?.Gen1Species?.Select(species => _mapper.Map<PokemonDto>(species)).ToList();
+
+            if (pokemonDtos != null && pokemonDtos.Any())
+            {
+                await _redisService.SetCachedDataAsync(cacheKey, pokemonDtos, TimeSpan.FromMinutes(30));
+            }
 
             return pokemonDtos ?? new List<PokemonDto>();
         }
